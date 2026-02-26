@@ -99,6 +99,15 @@ export const Navbar: React.FC = () => {
                     <p className="text-xs text-muted-foreground">{user.email || 'user@example.com'}</p>
                   </div>
                   
+                  {user.isAdmin && (
+                    <Link 
+                      to="/admin" 
+                      className="flex items-center px-4 py-2 text-sm hover:bg-muted transition-colors text-red-600 font-medium"
+                    >
+                      <LayoutDashboard className="mr-2 h-4 w-4" /> Admin Panel
+                    </Link>
+                  )}
+
                   <Link 
                     to={`/profile/${user.id}`} 
                     className="flex items-center px-4 py-2 text-sm hover:bg-muted transition-colors"
@@ -128,6 +137,9 @@ export const Navbar: React.FC = () => {
             <>
               <Button variant="ghost" onClick={() => login('freelancer')}>Join as Freelancer</Button>
               <Button onClick={() => login('client')}>Join as Client</Button>
+              <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600 hover:bg-red-50" onClick={() => login('admin')}>
+                Admin
+              </Button>
             </>
           )}
         </div>

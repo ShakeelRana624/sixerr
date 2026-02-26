@@ -276,6 +276,7 @@ export interface UserProfile {
   
   // Status flags
   isSeller: boolean;
+  isAdmin?: boolean;
   isEmailVerified: boolean;
   isPhoneVerified: boolean;
   isIdentityVerified: boolean;
@@ -293,7 +294,106 @@ export interface UserProfile {
   portfolio: { id: string; image: string; title: string }[];
 }
 
+export interface Dispute {
+  id: string;
+  orderId: string;
+  initiatorId: string;
+  initiatorName: string;
+  respondentId: string;
+  respondentName: string;
+  reason: string;
+  description: string;
+  status: 'open' | 'resolved' | 'closed';
+  createdAt: string;
+  resolution?: 'refund_buyer' | 'pay_seller' | 'split';
+}
+
+export interface Transaction {
+  id: string;
+  userId: string;
+  userName: string;
+  type: 'deposit' | 'withdrawal' | 'payment' | 'refund' | 'earning' | 'fee';
+  amount: number;
+  status: 'pending' | 'completed' | 'failed';
+  date: string;
+  referenceId?: string; // Order ID or Gig ID
+}
+
+export const MOCK_DISPUTES: Dispute[] = [
+  {
+    id: 'd1',
+    orderId: 'o1',
+    initiatorId: 'u2',
+    initiatorName: 'Jane Doe',
+    respondentId: 'u5',
+    respondentName: 'Alice Smith',
+    reason: 'Quality of work',
+    description: 'The logo delivered does not match the requirements provided.',
+    status: 'open',
+    createdAt: '2023-10-28T10:00:00Z'
+  }
+];
+
+export const MOCK_TRANSACTIONS: Transaction[] = [
+  {
+    id: 't1',
+    userId: 'u5',
+    userName: 'Alice Smith',
+    type: 'earning',
+    amount: 96,
+    status: 'pending',
+    date: '2023-10-25T11:00:00Z',
+    referenceId: 'o1'
+  },
+  {
+    id: 't2',
+    userId: 'u5',
+    userName: 'Alice Smith',
+    type: 'fee',
+    amount: 24,
+    status: 'completed',
+    date: '2023-10-25T11:00:00Z',
+    referenceId: 'o1'
+  },
+  {
+    id: 't3',
+    userId: 'u6',
+    userName: 'Bob Jones',
+    type: 'withdrawal',
+    amount: 500,
+    status: 'pending',
+    date: '2023-10-26T09:00:00Z'
+  }
+];
+
 export const MOCK_USERS: UserProfile[] = [
+  {
+    id: 'admin1',
+    username: 'admin',
+    email: 'admin@sixerr.com',
+    name: 'Super Admin',
+    displayName: 'Admin',
+    avatar: 'https://picsum.photos/seed/admin/100/100',
+    title: 'Platform Administrator',
+    location: 'Headquarters',
+    bio: 'I manage the platform.',
+    skills: [],
+    languages: [{ language: 'English', level: 'Native' }],
+    isSeller: false,
+    isAdmin: true,
+    isEmailVerified: true,
+    isPhoneVerified: true,
+    isIdentityVerified: true,
+    status: 'active',
+    rating: 0,
+    reviewsCount: 0,
+    hourlyRate: 0,
+    joinedAt: '2020-01-01T00:00:00Z',
+    balance: 0,
+    connects: 0,
+    reviews: [],
+    portfolio: []
+  },
   {
     id: 'u5',
     username: 'alicesmith_dev',

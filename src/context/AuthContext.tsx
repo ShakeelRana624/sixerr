@@ -28,7 +28,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Mock login function
   const login = (role: UserRole) => {
     // Use Alice (u5) as the default logged-in user for demo purposes
-    const mockProfile = MOCK_USERS[0]; 
+    // If role is admin, use the admin user
+    let mockProfile = MOCK_USERS.find(u => u.id === 'u5'); 
+    
+    if (role === 'admin') {
+      mockProfile = MOCK_USERS.find(u => u.id === 'admin1');
+    }
+
+    if (!mockProfile) return; // Should not happen with mock data
     
     const mockUser: User = {
       ...mockProfile,

@@ -21,6 +21,7 @@ import { MyProposals } from '@/pages/MyProposals';
 
 import { Orders } from '@/pages/Orders';
 
+import { OrderDetails } from '@/pages/OrderDetails';
 import { Profile } from '@/pages/Profile';
 import { SellerOnboarding } from '@/pages/seller/SellerOnboarding';
 
@@ -42,6 +43,7 @@ export default function App() {
               <Route path="/gigs/:id" element={<GigDetails />} />
               <Route path="/create-gig" element={<CreateGig />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/orders/:id" element={<OrderDetails />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/become-seller" element={<SellerOnboarding />} />

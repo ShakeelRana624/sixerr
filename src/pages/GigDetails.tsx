@@ -29,15 +29,26 @@ export const GigDetails: React.FC = () => {
     const newOrder: Order = {
       id: `o${Date.now()}`,
       gigId: gig.id,
+      gigTitle: gig.title,
+      gigImage: gig.image,
       clientId: user.id,
       clientName: user.name,
       freelancerId: gig.freelancerId,
       freelancerName: gig.freelancerName,
       packageType: currentPackage.name as 'Basic' | 'Standard' | 'Premium',
       price: currentPackage.price,
-      status: 'active',
+      platformFee: currentPackage.price * 0.2,
+      sellerEarnings: currentPackage.price * 0.8,
+      status: 'incomplete', // Starts as incomplete
       orderedAt: new Date().toISOString(),
-      deadline: new Date(Date.now() + currentPackage.deliveryTime * 24 * 60 * 60 * 1000).toISOString(),
+      events: [{
+        id: `e${Date.now()}`,
+        type: 'system',
+        senderId: 'system',
+        senderName: 'System',
+        content: 'Order placed. Waiting for requirements.',
+        timestamp: new Date().toISOString()
+      }]
     };
 
     // In a real app, this would be an API call. 

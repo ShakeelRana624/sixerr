@@ -77,7 +77,12 @@ export const Orders: React.FC = () => {
                     <span className="font-medium text-foreground">Freelancer:</span> {order.freelancerName}
                   </div>
                   <div className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" /> Due {formatDistanceToNow(new Date(order.deadline), { addSuffix: true })}
+                    <Clock className="h-3 w-3" /> 
+                    {order.deadline ? (
+                      <>Due {formatDistanceToNow(new Date(order.deadline), { addSuffix: true })}</>
+                    ) : (
+                      <span>No deadline set</span>
+                    )}
                   </div>
                 </div>
               </div>

@@ -73,46 +73,136 @@ export interface Proposal {
   submittedAt: string;
 }
 
+export type OrderStatus = 'incomplete' | 'active' | 'delivered' | 'revision' | 'disputed' | 'completed' | 'cancelled';
+
+export interface OrderEvent {
+  id: string;
+  type: 'message' | 'system' | 'delivery' | 'revision' | 'extension_request';
+  senderId: string;
+  senderName: string;
+  content: string;
+  files?: string[];
+  timestamp: string;
+  meta?: any;
+}
+
 export interface Order {
   id: string;
   gigId: string;
+  gigTitle: string;
+  gigImage: string;
   clientId: string;
   clientName: string;
   freelancerId: string;
   freelancerName: string;
   packageType: 'Basic' | 'Standard' | 'Premium';
   price: number;
-  status: 'active' | 'delivered' | 'completed' | 'cancelled';
+  platformFee: number; // 20%
+  sellerEarnings: number; // 80%
+  status: OrderStatus;
   orderedAt: string;
-  deadline: string;
+  requirementsSubmittedAt?: string;
+  deadline?: string;
+  deliveredAt?: string;
+  completedAt?: string;
+  clearingDate?: string;
+  events: OrderEvent[];
+  requirements?: Record<string, string>;
 }
 
 export const MOCK_ORDERS: Order[] = [
   {
     id: 'o1',
     gigId: 'g1',
+    gigTitle: 'I will design a professional logo for your business',
+    gigImage: 'https://picsum.photos/seed/g1/400/300',
     clientId: 'u2',
     clientName: 'Jane Doe',
     freelancerId: 'u5',
     freelancerName: 'Alice Smith',
     packageType: 'Standard',
     price: 120,
+    platformFee: 24,
+    sellerEarnings: 96,
     status: 'active',
     orderedAt: '2023-10-25T10:00:00Z',
-    deadline: '2023-10-30T10:00:00Z',
+    requirementsSubmittedAt: '2023-10-25T11:00:00Z',
+    deadline: '2023-10-30T11:00:00Z',
+    events: [
+      {
+        id: 'e1',
+        type: 'system',
+        senderId: 'system',
+        senderName: 'System',
+        content: 'Order started. Requirements submitted.',
+        timestamp: '2023-10-25T11:00:00Z'
+      },
+      {
+        id: 'e2',
+        type: 'message',
+        senderId: 'u2',
+        senderName: 'Jane Doe',
+        content: 'Hi Alice, really looking forward to this!',
+        timestamp: '2023-10-25T11:05:00Z'
+      }
+    ]
   },
   {
     id: 'o2',
     gigId: 'g2',
+    gigTitle: 'I will write SEO optimized blog posts',
+    gigImage: 'https://picsum.photos/seed/g2/400/300',
     clientId: 'u2',
     clientName: 'Jane Doe',
     freelancerId: 'u6',
     freelancerName: 'Bob Jones',
     packageType: 'Basic',
-    price: 50,
+    price: 30,
+    platformFee: 6,
+    sellerEarnings: 24,
     status: 'completed',
     orderedAt: '2023-10-20T09:00:00Z',
-    deadline: '2023-10-22T09:00:00Z',
+    requirementsSubmittedAt: '2023-10-20T09:30:00Z',
+    deadline: '2023-10-22T09:30:00Z',
+    deliveredAt: '2023-10-21T15:00:00Z',
+    completedAt: '2023-10-22T10:00:00Z',
+    clearingDate: '2023-11-05T10:00:00Z',
+    events: [
+      {
+        id: 'e1',
+        type: 'system',
+        senderId: 'system',
+        senderName: 'System',
+        content: 'Order completed.',
+        timestamp: '2023-10-22T10:00:00Z'
+      }
+    ]
+  },
+  {
+    id: 'o3',
+    gigId: 'g3',
+    gigTitle: 'I will build a responsive WordPress website',
+    gigImage: 'https://picsum.photos/seed/g3/400/300',
+    clientId: 'u5', // Alice buying from Charlie
+    clientName: 'Alice Smith',
+    freelancerId: 'u7',
+    freelancerName: 'Charlie Brown',
+    packageType: 'Premium',
+    price: 600,
+    platformFee: 120,
+    sellerEarnings: 480,
+    status: 'incomplete',
+    orderedAt: '2023-10-27T14:00:00Z',
+    events: [
+      {
+        id: 'e1',
+        type: 'system',
+        senderId: 'system',
+        senderName: 'System',
+        content: 'Order placed. Waiting for requirements.',
+        timestamp: '2023-10-27T14:00:00Z'
+      }
+    ]
   }
 ];
 

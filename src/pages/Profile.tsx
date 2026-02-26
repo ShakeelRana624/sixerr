@@ -40,11 +40,11 @@ export const Profile: React.FC = () => {
 
   const handleEditClick = () => {
     setEditForm({
-      name: profile.name,
-      title: profile.title,
-      bio: profile.bio,
-      location: profile.location,
-      hourlyRate: profile.hourlyRate,
+      name: profile.name || '',
+      title: profile.title || '',
+      bio: profile.bio || '',
+      location: profile.location || '',
+      hourlyRate: profile.hourlyRate || 0,
       skills: profile.skills ? [...profile.skills] : [],
     });
     setIsEditing(true);
@@ -310,7 +310,7 @@ export const Profile: React.FC = () => {
                 <textarea 
                   rows={4}
                   className="w-full px-3 py-2 rounded-md border bg-background resize-none"
-                  value={editForm.bio}
+                  value={editForm.bio || ''}
                   onChange={(e) => setEditForm({...editForm, bio: e.target.value})}
                 />
               </div>

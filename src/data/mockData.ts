@@ -22,6 +22,18 @@ export interface GigPackage {
   features: string[];
 }
 
+export interface GigFAQ {
+  question: string;
+  answer: string;
+}
+
+export interface GigRequirement {
+  question: string;
+  type: 'text' | 'multiple_choice' | 'attachment';
+  options?: string[]; // for multiple_choice
+  required: boolean;
+}
+
 export interface Gig {
   id: string;
   freelancerId: string;
@@ -29,8 +41,10 @@ export interface Gig {
   freelancerAvatar: string;
   title: string;
   description: string;
-  image: string;
+  image: string; // Main image
   category: string;
+  tags: string[]; // Search tags
+  metadata?: Record<string, string>; // e.g., { style: '3D', format: 'PNG' }
   rating: number;
   reviewsCount: number;
   startingPrice: number;
@@ -40,6 +54,10 @@ export interface Gig {
     standard: GigPackage;
     premium: GigPackage;
   };
+  faqs: GigFAQ[];
+  requirements: GigRequirement[];
+  gallery: string[]; // Array of image URLs
+  status: 'active' | 'paused' | 'pending_approval' | 'draft';
 }
 
 export interface Proposal {
@@ -304,10 +322,19 @@ export const MOCK_GIGS: Gig[] = [
     description: 'Get a unique and professional logo design for your business. I have 5 years of experience in branding.',
     image: 'https://picsum.photos/seed/g1/400/300',
     category: 'Graphics & Design',
+    tags: ['logo', 'design', 'branding', 'minimalist', 'business'],
     rating: 4.9,
     reviewsCount: 120,
     startingPrice: 50,
     deliveryTime: 3,
+    status: 'active',
+    gallery: ['https://picsum.photos/seed/g1/400/300', 'https://picsum.photos/seed/g1-2/400/300'],
+    faqs: [
+      { question: 'Do you provide source files?', answer: 'Yes, in Standard and Premium packages.' }
+    ],
+    requirements: [
+      { question: 'What is your business name?', type: 'text', required: true }
+    ],
     packages: {
       basic: {
         name: 'Basic',
@@ -344,10 +371,15 @@ export const MOCK_GIGS: Gig[] = [
     description: 'High quality, engaging, and SEO optimized blog posts for your website. I cover tech, health, and lifestyle topics.',
     image: 'https://picsum.photos/seed/g2/400/300',
     category: 'Writing & Translation',
+    tags: ['seo', 'writing', 'blog', 'content', 'article'],
     rating: 4.7,
     reviewsCount: 45,
     startingPrice: 30,
     deliveryTime: 2,
+    status: 'active',
+    gallery: ['https://picsum.photos/seed/g2/400/300'],
+    faqs: [],
+    requirements: [],
     packages: {
       basic: {
         name: 'Basic',
@@ -384,10 +416,15 @@ export const MOCK_GIGS: Gig[] = [
     description: 'Full website creation using Elementor Pro. Responsive, fast, and secure.',
     image: 'https://picsum.photos/seed/g3/400/300',
     category: 'Programming & Tech',
+    tags: ['wordpress', 'website', 'elementor', 'design', 'responsive'],
     rating: 5.0,
     reviewsCount: 200,
     startingPrice: 150,
     deliveryTime: 5,
+    status: 'active',
+    gallery: ['https://picsum.photos/seed/g3/400/300'],
+    faqs: [],
+    requirements: [],
     packages: {
       basic: {
         name: 'Basic',
